@@ -3,7 +3,7 @@ from tkinter import Button, Tk, Label, Entry
 from datetime import datetime
 
 
-INITIAL_DIR = ""  # Начальная папка
+INITIAL_DIR = "D:/работа/Проекты Текущие"  # Начальная папка
 WINDOW_WIDTH = 600
 ENTRY_WIDTH = 100
 FOLDER_BUTTON_WIDTH = 50
