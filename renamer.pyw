@@ -1,15 +1,33 @@
 from os import rename, listdir
+from gui import Gui
 
-BEGINNING_OF_THE_NAME = "new"
-NEW_BEGINNING_OF_THE_NAME = "old"
-DIRECTORY = "folder"
 
-# rename("folder/test.txt", "folder/newtest.txt")
+def choose_files(directory, old, new):
+    files_list = listdir(directory)
+    result = []
+    for file in files_list:
+        if (
+                file[0:len(old)] == old and
+                edit_name(old, new, file) not in files_list
+        ):
+            result.append(file)
+    return result
 
-files_list = listdir(DIRECTORY)
 
-for file_name in files_list:
-    if file_name[0:len(BEGINNING_OF_THE_NAME)] == BEGINNING_OF_THE_NAME:
-        new_name = f"{NEW_BEGINNING_OF_THE_NAME}{file_name[len(BEGINNING_OF_THE_NAME):]}"
-        if new_name not in files_list:
-            rename(f"{DIRECTORY}/{file_name}", f"{DIRECTORY}/{new_name}")
+def edit_name(old, new, filename, only_in_beginning=True):
+    if only_in_beginning:
+        result = f"{new}{filename[len(old):]}"
+    else:
+        result = filename.replace(old, new)
+    return result
+
+
+def renaming(directory, old_beginning, new_beginning):
+
+    files_list = choose_files(directory, old_beginning, new_beginning)
+    for file_name in files_list:
+        new_name = edit_name(old_beginning, new_beginning, file_name)
+        rename(f"{directory}/{file_name}",f"{directory}/{new_name}")
+
+
+gui = Gui(renaming, choose_files)
